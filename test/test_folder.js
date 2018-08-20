@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 describe('Folder', function () {
     describe('Create Folder Empty', function () {
         after(done => {
-            fs.removeSync(`${config.testFolder_Empty}`);
+            fs.removeSync(`${config.testFolderEmpty}`);
             done();
         })
 
@@ -14,14 +14,14 @@ describe('Folder', function () {
             assert.equal(folder.createFolder(`${config.testFolderCurrent}`), false);
         })
         it('should return true when create success', function () {
-            assert.equal(folder.createFolder(`${config.testFolder_Empty}`), true);
+            assert.equal(folder.createFolder(`${config.testFolderEmpty}`), true);
         })
     })
 
     describe('Check Empty Folder Which Has Child Folder', function () {
         before(done => {
             let folderBase = './test/images/base_temp';
-            folder.createFolder(`${config.testFolder_Empty}`);
+            folder.createFolder(`${config.testFolderEmpty}`);
             folder.createFolder(folderBase);
             folder.createFolder(`${folderBase}/test`);
             done();
@@ -29,13 +29,13 @@ describe('Folder', function () {
 
         after(done => {
             let folderBase = './test/images/base_temp';
-            fs.removeSync((`${config.testFolder_Empty}`));
+            fs.removeSync((`${config.testFolderEmpty}`));
             fs.removeSync(folderBase);
             done();
         })
 
         it('should return true when folder has not child folder', function () {
-            assert.equal(folder.checkEmptyBaseFolder(`${config.testFolder_Empty}`), true);
+            assert.equal(folder.checkEmptyBaseFolder(`${config.testFolderEmpty}`), true);
         })
 
         it('should return true when folder has child folder and not child files', function () {
@@ -52,12 +52,12 @@ describe('Folder', function () {
 
     describe('Check Empty Another Folder', function () {
         before(done => {
-            folder.createFolder(`${config.testFolder_Empty}`);
+            folder.createFolder(`${config.testFolderEmpty}`);
             done();
         })
 
         after(done => {
-            fs.removeSync(`${config.testFolder_Empty}`);
+            fs.removeSync(`${config.testFolderEmpty}`);
             done();
         })
 
@@ -65,7 +65,7 @@ describe('Folder', function () {
             assert.equal(folder.checkEmptyFolder(`${config.testFolderCurrent}`), false);
         })
         it('should return true when folder has files', function () {
-            assert.equal(folder.checkEmptyFolder(`${config.testFolder_Empty}`), true);
+            assert.equal(folder.checkEmptyFolder(`${config.testFolderEmpty}`), true);
         })
     })
 
