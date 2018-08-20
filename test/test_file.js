@@ -9,9 +9,8 @@ describe('File', function () {
         before(done => {
             if (fs.pathExistsSync(`${config.testFolderBase}/test`))
                 fs.removeSync(`${config.testFolderBase}/test`);
-	    else
-		folder.createFolder(`${config.testFolderBase}/test`);
-            
+	
+	    folder.createFolder(`${config.testFolderBase}/test`);
 	    done();
         })
         it('should create a file test in base folder', function () {
