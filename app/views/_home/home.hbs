@@ -1,0 +1,38 @@
+<style>
+    .content-wrapper {
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 5px;
+        padding-right: 5px;
+        background-color: #fff;
+        top: 42%;
+        min-height: 12%;
+        position: absolute;
+        z-index: -9;
+        width: 100%;
+        margin-top: 0%;
+    }
+</style>
+<div class="content-wrapper">
+    <div class="container content">
+        <div class="row">
+            {{> home_reset}} {{> home_table}} {{> home_replace}} {{> home_addBase}} {{> home_automation}}
+        </div>
+    </div>
+</div>
+
+<script>
+    function getListNamesChecked() {
+        var listNames = [];
+        var nameBaseFile;
+        var checkbox_child = $('.checkbox_child');
+        var length = checkbox_child.length;
+        for (i = 0; i < length; i++) {
+            if (checkbox_child.eq(i).val() == 'true') {
+                nameBaseFile = checkbox_child.eq(i).closest('tr').attr('name');
+                listNames.push(nameBaseFile);
+            }
+        }
+        return listNames;
+    }
+</script>

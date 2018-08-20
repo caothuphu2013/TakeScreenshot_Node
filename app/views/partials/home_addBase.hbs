@@ -1,0 +1,44 @@
+<style>
+    #btn_add {
+        float: right;
+        font-size: 14px;
+        box-shadow: slategrey;
+        margin-left: 1.5%;
+        margin-bottom: 2%;
+    }
+</style>
+
+
+<div>
+    {{#if isImages}}
+    <form action="/add/base" method="POST">
+        <button id='btn_add' type="button" class="btn btn-success" name="" data-toggle="tooltip" title="Add a new base image">
+            <i class="fa fa-plus-square"></i> Add Base Line</button>
+    </form>
+    {{/if}}
+</div>
+
+<script>
+
+    $('#btn_add').click(function (e) {
+        e.preventDefault();
+        var listNames = getListNamesChecked();
+        if (listNames.length > 0) {
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(listNames),
+                contentType: 'application/json',
+                url: 'http://localhost:8080/add/base',
+                success: function (data) {
+                    location.reload();
+                }
+            })
+        }
+        else {
+            $('.error').show();
+            setTimeout(function() {
+                $('.error').hide();
+            }, 3000);
+        }
+    })
+</script>

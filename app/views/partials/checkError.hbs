@@ -1,0 +1,23 @@
+<style>
+    .error {
+        position: fixed;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        display: none;
+        z-index: 100;
+    }   
+</style>
+<div class="container content_error">
+    <div class="alert alert-warning fade in error">
+        <button class="close" aria-label="close">&times;</button>
+        <strong>Warning!</strong> Checkbox is not active. Please check!!!
+    </div>
+</div>
+
+<script>
+    $('.close').click(function(){
+        $('.error').hide();
+    })
+</script>

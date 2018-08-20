@@ -1,0 +1,44 @@
+<style>
+    #btn_replace {
+        float: right;
+        font-size: 15px;
+        box-shadow: slategrey;
+        margin-left: 1.5%;
+        margin-bottom: 2%;
+        width: 8%;
+    }
+</style>
+
+
+<div>
+    {{#if isImages}}
+    <form action="/replace" method="POST">
+        <button id='btn_replace' type="button" class="btn btn-success" name="" data-toggle="tooltip" title="Replace two images">
+             <i class="	fa fa-copy"></i> Replace</button>
+    </form>
+    {{/if}}
+</div>
+
+<script>
+    $('#btn_replace').click(function (e) {
+        e.preventDefault();
+        var listNames = getListNamesChecked();
+        if (listNames.length > 0) {
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(listNames),
+                contentType: 'application/json',
+                url: 'http://localhost:8080/replace',
+                success: function (data) {
+                    location.reload();
+                }
+            })
+        }
+        else {
+            $('.error').show();
+            setTimeout(function() {
+                $('.error').hide();
+            }, 3000);
+        }
+    })
+</script>
