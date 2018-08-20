@@ -9,10 +9,12 @@ describe('File', function () {
         before(done => {
             if (fs.pathExistsSync(`${config.testFolderBase}/test`))
                 fs.removeSync(`${config.testFolderBase}/test`);
-            done();
+	    else
+		folder.createFolder(`${config.testFolderBase}/test`);
+            
+	    done();
         })
         it('should create a file test in base folder', function () {
-            folder.createFolder(`${config.testFolderBase}/test`);
             assert.equal(file.createFile(`${config.testFolderBase}/test/base_test_0.png`, 'This is a base test image 0'), true);
             assert.equal(file.createFile(`${config.testFolderBase}/test/base_test_1.png`, 'This is a base test image 1'), true);
             assert.equal(file.createFile(`${config.testFolderBase}/test/base_test_2.png`, 'This is a base test image 2'), true);
