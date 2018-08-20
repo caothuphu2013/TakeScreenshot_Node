@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "npm install mocha",
     "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "start": "node server.js"
   },
