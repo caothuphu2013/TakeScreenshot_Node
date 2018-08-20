@@ -1,1 +1,0 @@
-# TakeScreenshot_Node
