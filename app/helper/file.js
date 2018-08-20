@@ -1,9 +1,9 @@
-let fs = require('fs');
+let fs = require('fs-extra');
 let string = require('../helper/string');
 let folder = require('../helper/folder');
 
 function createFile(path, content) {
-    if (!fs.existsSync(path)) {
+    if (!fs.pathExistsSync(path)) {
         fs.writeFileSync(path, content);
         return true;
     }
