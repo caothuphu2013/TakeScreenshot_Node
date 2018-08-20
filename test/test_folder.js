@@ -31,7 +31,7 @@ describe('Folder', function () {
             folder.createFolder(`${folderBase}/test`);
             done();
         })
-
+ 
         after(done => {
             let folderBase = './test/images/base_temp';
             fs.removeSync((`${config.testFolderEmpty}`));
