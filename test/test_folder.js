@@ -5,6 +5,11 @@ const fs = require('fs-extra');
 
 describe('Folder', function () {
     describe('Create Folder Empty', function () {
+       	before(done => {
+            if (fs.pathExistsSync(`${config.testFolderEmpty}`))
+                fs.removeSync(`${config.testFolderEmpty}`);
+            done();
+        })
         after(done => {
             fs.removeSync(`${config.testFolderEmpty}`);
             done();
