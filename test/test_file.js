@@ -6,6 +6,11 @@ const folder = require('../app/helper/folder');
 
 describe('File', function () {
     describe('Create File Test', function () {
+        before(done => {
+            if (fs.pathExistsSync(`${config.testFolderBase}/test`))
+                fs.removeSync(`${config.testFolderBase}/test`);
+            done();
+        })
         it('should create a file test in base folder', function () {
             folder.createFolder(`${config.testFolderBase}/test`);
             assert.equal(file.createFile(`${config.testFolderBase}/test/base_test_0.png`, 'This is a base test image 0'), true);
