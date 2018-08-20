@@ -25,10 +25,12 @@ describe('Automation', function () {
             done();
         })
         
+        /*
         after(done => {
             fs.removeSync(`${config.testFolderEmpty}`);
             done();
         })
+        */
 
         it ('should one of two folders empty', function() {
             automation.compareFile(`${config.testFolderEmpty}`, `${config.testFolderBase}`);
