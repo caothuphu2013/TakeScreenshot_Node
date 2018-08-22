@@ -12,11 +12,10 @@ function createFile(path, content) {
 
 function addBaseFile(pathFolderBase, pathFolderCurrent, listNames, capacity) {
     let length = listNames.length;
-    let nameFile;
+    let nameFile, obj, folderBase, lengthBase;
     for (let i = 0; i < length; i++) {
         obj = string.splitFileNameAndIndex(listNames[i]);
         nameFile = obj.name;
-        index = obj.index;
 
         folderBase = folder.loadImages(`${pathFolderBase}/${nameFile}`);
         lengthBase = folderBase.length;
@@ -35,8 +34,8 @@ function addBaseFile(pathFolderBase, pathFolderCurrent, listNames, capacity) {
 }
 
 function replaceBaseFile(pathFolderBase, pathFolderCurrent, listNames) {
-
     let length = listNames.length;
+    let obj, nameFile;
     for (let i = 0; i < length; i++) {
         obj = string.splitFileNameAndIndex(listNames[i]);
         nameFile = obj.name;

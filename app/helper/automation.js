@@ -18,10 +18,10 @@ async function automateLogin(page, pathFolder, selector, info, nameImg) {
     await page.keyboard.type(info);
 }
 
-async function automateEventClick(page, pathFolder, selector, nameImg) {
-    await page.waitFor(others.timewait);
+async function automateEventClick(page, pathFolder, selector, nameImg, timewait) {
+    await page.waitFor(timewait);
     await page.click(selector);
-    await page.waitFor(others.timewait * 4);
+    await page.waitFor(timewait * 2);
     await page.screenshot({
         path: `${pathFolder}/current_${nameImg}.png`,
         fullPage: true
@@ -40,7 +40,7 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
     const promises = [];
     promises.push(
         puppeteer.launch({
-            headless: true,
+            headless: false,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -56,7 +56,7 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
                     await automatePage(page, pathFolder, 'login', 'login');
                     await automateLogin(page, pathFolder, selectors.email, infomations.email, 'email');
                     await automateLogin(page, pathFolder, selectors.password, infomations.password, 'password');
-                    await automateEventClick(page, pathFolder, selectors.button_login, 'dashboard');
+                    await automateEventClick(page, pathFolder, selectors.button_login, 'dashboard', others.timewait * 2);
                     await automatePage(page, pathFolder, 'cas/connections/', 'my_application');
                     await automatePage(page, pathFolder, 'cas/applicationcatalog/', 'application_catalog');
                     await automatePage(page, pathFolder, 'groupmanagement/', 'user_group');
@@ -66,11 +66,14 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
                     await automatePage(page, pathFolder, 'cas/config/clouddesktopng/', 'dock');
                     await automatePage(page, pathFolder, 'cas/config/authnpolicy/', 'authentication_policy');
                     await automatePage(page, pathFolder, 'cas/config/pingid/', 'pingID');
+                    await automateEventClick(page, pathFolder, selectors.settings_client_integration, 'settings_client_integration', others.timewait);
+                    await automateEventClick(page, pathFolder, selectors.settings_branding, 'settings_branding', others.timewait);
+                    await automateEventClick(page, pathFolder, selectors.setting_device_pairing, 'setting_device', others.timewait);
+                    await automateEventClick(page, pathFolder, selectors.setting_policy, 'setting_policy', others.timewait);
                     await automatePage(page, pathFolder, 'directoryPasswordPolicy/', 'directory_password_policy');
                     await automatePage(page, pathFolder, 'directoryRegistration', 'directory_registration');
                     await automatePage(page, pathFolder, 'cid/credentials', 'directory_api_credentials');
                     await automatePage(page, pathFolder, 'cas/config/certificates/', 'certificates');
-                    await automatePage(page, pathFolder, 'account/companyng', 'account_company');
                 });
             browser.close();
         }))
@@ -114,16 +117,16 @@ function compareFile(pathFolder, pathSaveFolder) {
         else {
             console.log('Start create diff');
             for (let i = 0; i < length; i++) {
-                index_promises = folder.getIndexBaseImages(pathSaveFolder, pathFolder, results[0][i], results[1][i]);
+                var index_promises = folder.getIndexBaseImages(pathSaveFolder, pathFolder, results[0][i], results[1][i]);
                 Promise.all(index_promises)
                     .then(res => {
                         
-                        nameFileDiff = string.splitFileName(results[1][i]);
-                        value = array.getIndexLatest(res, -1);
+                        var nameFileDiff = string.splitFileName(results[1][i]);
+                        var value = array.getIndexLatest(res, -1);
                         console.log(`base_${results[0][i]}.png: ${res} `);
                       
                         if (value !== -1) {
-                            data = `base_${results[0][i]}.png: ${res}\r\n`;
+                            var data = `base_${results[0][i]}.png: ${res}\r\n`;
                             fs.appendFileSync('Report.txt', data);  
                             imgDiff({
                                 actualFilename: `${pathSaveFolder}/${results[0][i]}/base_${results[0][i]}_${value}.png`,
