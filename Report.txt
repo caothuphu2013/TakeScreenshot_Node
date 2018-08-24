@@ -1,11 +1,14 @@
 ________________________________
-base_user_directory.png: 339
-base_dashboard.png: 252
 ________________________________
-base_directory_registration.png: 32
-base_dashboard.png: 520,268
+base_user_directory.png: 421
+base_dashboard.png: 527693
 ________________________________
-base_dashboard.png: 651,399
+base_dashboard.png: 528243,552
 ________________________________
-base_dashboard.png: 798,657
+base_dashboard.png: 528558,1006
 ________________________________
+base_dashboard.png: 528623,1087
+________________________________
+base_dashboard.png: 528648,1241
+________________________________
+base_dashboard.png: 528910,1530

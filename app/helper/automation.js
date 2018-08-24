@@ -40,7 +40,7 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
     const promises = [];
     promises.push(
         puppeteer.launch({
-            headless: false,
+            headless: true,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -133,6 +133,10 @@ function compareFile(pathFolder, pathSaveFolder) {
                                 expectedFilename: `${pathFolder}/${results[1][i]}`,
                                 diffFilename: `${others.folderDiff}/diff_${nameFileDiff}_${value}.png`,
                                 generateOnlyDiffFile: true,
+                                options: {
+                                    threshold: 0,
+                                    includeAA: true
+                                }
                             }).then(result => {
 
                             })

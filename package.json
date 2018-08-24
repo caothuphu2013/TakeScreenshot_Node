@@ -24,7 +24,6 @@
     "img-diff-js": "^0.4.1",
     "node-mocks-http": "^1.7.0",
     "path": "^0.12.7",
-    "puppeteer-screenshot-tester": "^1.0.4",
     "q": "^1.5.1"
   },
   "engines": {

@@ -24,7 +24,7 @@ module.exports = {
             return true;
         else {
             for (let i = 0;i < lengthFolder;i++) {
-                files = fs.readdirSync(`${path}/${folders[i]}`);
+                var files = fs.readdirSync(`${path}/${folders[i]}`);
                 if (files.length === 0) 
                     return true;
             }
@@ -90,7 +90,11 @@ module.exports = {
         for (let i = 0;i < length;i++) {
             promises.push(imgDiff({
                 actualFilename: `${pathFolderBase}/${nameFolderBase}/${files[i]}`,
-                expectedFilename: `${pathFolderCurrent}/${nameFileCurrent}`
+                expectedFilename: `${pathFolderCurrent}/${nameFileCurrent}`,
+                options: {
+                    threshold: 0,
+                    includeAA: true
+                }
             }).then( result => {
                 if (result.imagesAreSame == true) 
                     return -1;

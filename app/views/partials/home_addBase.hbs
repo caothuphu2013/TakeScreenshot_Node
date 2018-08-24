@@ -8,7 +8,6 @@
     }
 </style>
 
-
 <div>
     {{#if isImages}}
     <form action="/add/base" method="POST">
@@ -19,7 +18,6 @@
 </div>
 
 <script>
-
     $('#btn_add').click(function (e) {
         e.preventDefault();
         var listNames = getListNamesChecked();
@@ -28,7 +26,7 @@
                 type: 'POST',
                 data: JSON.stringify(listNames),
                 contentType: 'application/json',
-                url: 'http://localhost:3000/add/base',
+                url: '/add/base',
                 success: function (data) {
                     location.reload();
                 }

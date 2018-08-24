@@ -27,7 +27,7 @@ let homeController = {
                 let listIndexs = file.getArrayIndexImages(temp3, temp2);
                 let length = listIndexs.length;
                 for (let i = 0; i < length; i++) {
-                    obj = string.splitFileNameAndIndex(temp2[i]);
+                    var obj = string.splitFileNameAndIndex(temp2[i]);
                     listImages.push({
                         baseImage: `${obj.name}/base_${obj.name}_${obj.index}.png`,
                         diffImage: temp2[i],
@@ -35,6 +35,7 @@ let homeController = {
                     });
                 }
 
+                var isImages;
                 if (length === 0) {
                     isImages = false;
                 }
