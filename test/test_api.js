@@ -22,12 +22,18 @@ describe('Api', function() {
         it ('should server different null', function() {
             server.listen(3000);
         })
-        if (fs.pathExistsSync(`${others.folderImagesTest}`)) {
-            fs.removeSync(`${others.folderImage}`);
-            fs.copySync(`${others.folderImagesTest}`, `${others.folderImage}`);
+
+        if (fs.pathExistsSync(`${others.folderDiff}`)) {
+            if (fs.pathExistsSync(`${others.folderImagesTest}`)) {
+                fs.removeSync(`${others.folderImage}`);
+                fs.copySync(`${others.folderImagesTest}`, `${others.folderImage}`);
+            }
+            else {
+                fs.copySync(`${others.folderImage}`, `${others.folderImagesTest}`);
+            }
         }
         else {
-            fs.copySync(`${others.folderImage}`, `${others.folderImagesTest}`);
+            fs.mkdirSync(`${others.folderDiff}`);
         }
         done();
     })

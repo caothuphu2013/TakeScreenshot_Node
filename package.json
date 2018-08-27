@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "npm install && mocha",
-    "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test",
+    "coverage": "npm install && nyc --reporter=lcov --reporter=text-lcov npm test",
     "start": "node server.js"
   },
   "author": "",
