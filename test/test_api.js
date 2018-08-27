@@ -36,13 +36,10 @@ describe('Api', function() {
             fs.mkdirSync(`${others.folderDiff}`);
         }
         done();
-    })
+    }) 
 
     after(done => {
         server.listen(3000).close();
-        //fs.removeSync(`${others.folderImage}`);
-        //fs.copySync(`${others.folderImagesTest}`, `${others.folderImage}`);
-        //await fs.removeSync(`${others.folderImagesTest}`);
         done();
     })
 
@@ -93,7 +90,7 @@ describe('Api', function() {
             chai.request(server)
                 .get('/')
                 .end((err, res) => {
-                    expect(res).have.status(302); //loading no render
+                    expect(res).have.status(302);
                     done();
                 })
         })
