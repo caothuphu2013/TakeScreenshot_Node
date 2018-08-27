@@ -6,6 +6,7 @@ const others = require('../app/config/others');
 const automation = require('../app/helper/automation');
 
 module.exports = function(app) {
+    folder.createFolder(`${others.folderImage}`);
     folder.createFolder(`${others.folderBase}`);
     folder.createFolder(`${others.folderCurrent}`);
     folder.createFolder(`${others.folderDiff}`);
