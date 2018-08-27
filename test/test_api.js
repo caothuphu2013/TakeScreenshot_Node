@@ -40,9 +40,6 @@ describe('Api', function() {
 
     after(done => {
         server.listen(3000).close();
-        //fs.removeSync(`${others.folderImage}`);
-        //fs.copySync(`${others.folderImagesTest}`, `${others.folderImage}`);
-        //await fs.removeSync(`${others.folderImagesTest}`);
         done();
     })
 
