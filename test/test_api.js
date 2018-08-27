@@ -36,7 +36,7 @@ describe('Api', function() {
             fs.mkdirSync(`${others.folderDiff}`);
         }
         done();
-    })
+    }) 
 
     after(done => {
         server.listen(3000).close();
