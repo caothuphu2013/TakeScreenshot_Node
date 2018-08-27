@@ -33,10 +33,10 @@ describe('Api', function() {
             }
         }
         else {
-            fs.mkdirpSync(`${others.folderImage}`);
-            fs.mkdirpSync(`${others.folderBase}`);
-            fs.mkdirpSync(`${others.folderCurrent}`);
-            fs.mkdirpSync(`${others.folderDiff}`);
+            fs.mkdirSync(`${others.folderImage}`);
+            fs.mkdirSync(`${others.folderBase}`);
+            fs.mkdirSync(`${others.folderCurrent}`);
+            fs.mkdirSync(`${others.folderDiff}`);
         }
         done();
     })
