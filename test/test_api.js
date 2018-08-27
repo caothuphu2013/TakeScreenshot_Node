@@ -23,7 +23,7 @@ describe('Api', function() {
             server.listen(3000);
         })
 
-        if (fs.pathExistsSync(`${others.folderImage}`)) {
+        if (fs.pathExistsSync(`${others.folderDiff}`)) {
             if (fs.pathExistsSync(`${others.folderImagesTest}`)) {
                 fs.removeSync(`${others.folderImage}`);
                 fs.copySync(`${others.folderImagesTest}`, `${others.folderImage}`);
@@ -33,9 +33,6 @@ describe('Api', function() {
             }
         }
         else {
-            fs.mkdirSync(`${others.folderImage}`);
-            fs.mkdirSync(`${others.folderBase}`);
-            fs.mkdirSync(`${others.folderCurrent}`);
             fs.mkdirSync(`${others.folderDiff}`);
         }
         done();
