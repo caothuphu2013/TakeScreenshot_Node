@@ -90,7 +90,7 @@ describe('Api', function() {
             chai.request(server)
                 .get('/')
                 .end((err, res) => {
-                    expect(res).have.status(302); //loading no render
+                    expect(res).have.status(302);
                     done();
                 })
         })
