@@ -1,6 +1,6 @@
 module.exports = {
-    email: '#email',
-    password: '#password',
+    email: 'email',
+    password: 'password',
     button_login: '.ping-buttons > .sign-on',
     settings_client_integration: '.view-client',
     settings_branding: '.view-branding',

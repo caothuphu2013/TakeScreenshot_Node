@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer');
+const {Builder, By, Key, until} = require('selenium-webdriver');
+require('chromedriver');
 const fs = require('fs');
 
 const infomations = require('../config/infomations');
@@ -12,6 +13,33 @@ const string = require('../helper/string');
 const { imgDiff } = require('img-diff-js');
 const async = require('async');
 
+async function automatePage(page, pathFolder, elementWait, pathName, nameImg) {
+    await page.get(`${others.hostname}/${pathName}`);
+    await page.findElement(By.id(elementWait));
+    await page.takeScreenshot().then(function(data) {
+        fs.writeFile(`${pathFolder}/current_${nameImg}.png`, data, {encoding: 'base64'}, function(err) {
+          if (err != null)
+            console.log(err);
+        })
+    });
+}
+
+async function automateLogin(page, selector, info) {
+    await page.findElement(By.name(selector)).sendKeys(info);
+}
+
+async function automateEventClick(page, pathFolder, elementWait, selector, nameImg) {
+    await page.findElement(By.id(selector)).click();
+    await page.findElement(By.id(elementWait));
+    await page.takeScreenshot().then(function(data) {
+        fs.writeFile(`${pathFolder}/current_${nameImg}.png`, data, {encoding: 'base64'}, function(err) {
+          if (err != null)
+            console.log(err);
+        })
+    });
+}
+
+/*
 async function automateLogin(page, pathFolder, selector, info, nameImg) {
     await page.waitFor(others.timewait);
     await page.click(selector);
@@ -36,6 +64,9 @@ async function automatePage(page, pathFolder, pathName, nameImg) {
         fullPage: true
     });
 }
+*/
+
+/*
 function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
     const promises = [];
     promises.push(
@@ -50,7 +81,7 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
             await browser.newPage()
                 .then(async page => {
                     await page.setViewport({
-                        width: 1440,
+                        width: 1400,
                         height: 900
                     });
                     await automatePage(page, pathFolder, 'login', 'login');
@@ -83,6 +114,39 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
         if (isCompare)
             compareFile(pathFolder, pathSaveFolder);
     })
+
+}
+*/
+
+async function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
+    var driver = await new Builder().forBrowser('chrome').build();
+
+    try {
+        await automatePage(driver, pathFolder, 'ping-content', 'login', 'login');
+        await automateLogin(driver, selectors.email, infomations.email);
+        await automateLogin(driver, selectors.password, infomations.password);
+        await automateEventClick(driver, pathFolder, 'map_canvas', selectors.button_login, 'dashboard');
+        await automatePage(page, pathFolder, 'id34', 'cas/connections/', 'my_application');
+        await automatePage(page, pathFolder, 'id77', 'cas/applicationcatalog/', 'application_catalog');
+        await automatePage(page, pathFolder, 'id97', 'groupmanagement/', 'user_group');
+        await automatePage(page, pathFolder, 'ng-app', 'usermanagement/', 'user_directory');
+        await automatePage(page, pathFolder, 'primary', 'usersbyserviceng/', 'users_by_service');
+        await automatePage(page, pathFolder, 'ping-content', 'cas/config/idpng/', 'identity_repository');
+        await automatePage(page, pathFolder, 'ping-content', 'cas/config/clouddesktopng/', 'dock');
+        await automatePage(page, pathFolder, 'hp-idc1', 'cas/config/authnpolicy/', 'authentication_policy');
+        await automatePage(page, pathFolder, 'primary', 'cas/config/pingid/', 'pingID');
+        await automateEventClick(page, pathFolder, 'primary', selectors.settings_client_integration, 'settings_client_integration');
+        await automateEventClick(page, pathFolder, 'brandingHomeSvcIcon', selectors.settings_branding, 'settings_branding');
+        await automateEventClick(page, pathFolder, 'ipAddresses', selectors.setting_device_pairing, 'setting_device');
+        await automateEventClick(page, pathFolder, 'default-action-section', selectors.setting_policy, 'setting_policy');
+        await automatePage(page, pathFolder, 'hp-expiry', 'directoryPasswordPolicy/', 'directory_password_policy');
+        await automatePage(page, pathFolder, 'directoryRegistration', 'directory_registration');
+        await automatePage(page, pathFolder, 'registrationURL', 'cid/credentials', 'directory_api_credentials');
+        await automatePage(page, pathFolder, 'expand-btn', 'cas/config/certificates/', 'certificates');
+
+    } finally {
+        await driver.quit();
+    }
 
 }
 

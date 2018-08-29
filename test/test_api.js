@@ -96,7 +96,6 @@ describe('Api', function() {
         })
 
         it ('should render no images when base folder empty', done => {
-            //DELETE BASE FOLDER
             folder.removeFileBase(`${others.folderBase}`);
             chai.request(server)
                 .get('/')
