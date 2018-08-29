@@ -14,8 +14,11 @@ const { imgDiff } = require('img-diff-js');
 const async = require('async');
 
 async function automatePage(page, pathFolder, elementWait, pathName, nameImg) {
+    var by = By.className(elementWait);
     await page.get(`${others.hostname}/${pathName}`);
-    await page.findElement(By.id(elementWait));
+    await page.wait(until.elementLocated(by))
+    await page.wait(until.elementIsVisible(await page.findElement(by)));
+    await page.sleep(1000);
     await page.takeScreenshot().then(function(data) {
         fs.writeFile(`${pathFolder}/current_${nameImg}.png`, data, {encoding: 'base64'}, function(err) {
           if (err != null)
@@ -26,11 +29,15 @@ async function automatePage(page, pathFolder, elementWait, pathName, nameImg) {
 
 async function automateLogin(page, selector, info) {
     await page.findElement(By.name(selector)).sendKeys(info);
+    await page.sleep(1000);
 }
 
 async function automateEventClick(page, pathFolder, elementWait, selector, nameImg) {
-    await page.findElement(By.id(selector)).click();
-    await page.findElement(By.id(elementWait));
+    var by = By.className(elementWait);
+    await page.findElement(By.className(selector)).click();
+    await page.wait(until.elementLocated(by))
+    await page.wait(until.elementIsVisible(await page.findElement(by)));
+    await page.sleep(1000);
     await page.takeScreenshot().then(function(data) {
         fs.writeFile(`${pathFolder}/current_${nameImg}.png`, data, {encoding: 'base64'}, function(err) {
           if (err != null)
@@ -120,32 +127,37 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
 
 async function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
     var driver = await new Builder().forBrowser('chrome').build();
-
     try {
-        await automatePage(driver, pathFolder, 'ping-content', 'login', 'login');
+        await driver.manage().window().maximize();
+        await automatePage(driver, pathFolder, 'sign-on', 'login', 'login');
         await automateLogin(driver, selectors.email, infomations.email);
         await automateLogin(driver, selectors.password, infomations.password);
-        await automateEventClick(driver, pathFolder, 'map_canvas', selectors.button_login, 'dashboard');
-        await automatePage(page, pathFolder, 'id34', 'cas/connections/', 'my_application');
-        await automatePage(page, pathFolder, 'id77', 'cas/applicationcatalog/', 'application_catalog');
-        await automatePage(page, pathFolder, 'id97', 'groupmanagement/', 'user_group');
-        await automatePage(page, pathFolder, 'ng-app', 'usermanagement/', 'user_directory');
-        await automatePage(page, pathFolder, 'primary', 'usersbyserviceng/', 'users_by_service');
-        await automatePage(page, pathFolder, 'ping-content', 'cas/config/idpng/', 'identity_repository');
-        await automatePage(page, pathFolder, 'ping-content', 'cas/config/clouddesktopng/', 'dock');
-        await automatePage(page, pathFolder, 'hp-idc1', 'cas/config/authnpolicy/', 'authentication_policy');
-        await automatePage(page, pathFolder, 'primary', 'cas/config/pingid/', 'pingID');
-        await automateEventClick(page, pathFolder, 'primary', selectors.settings_client_integration, 'settings_client_integration');
-        await automateEventClick(page, pathFolder, 'brandingHomeSvcIcon', selectors.settings_branding, 'settings_branding');
-        await automateEventClick(page, pathFolder, 'ipAddresses', selectors.setting_device_pairing, 'setting_device');
-        await automateEventClick(page, pathFolder, 'default-action-section', selectors.setting_policy, 'setting_policy');
-        await automatePage(page, pathFolder, 'hp-expiry', 'directoryPasswordPolicy/', 'directory_password_policy');
-        await automatePage(page, pathFolder, 'directoryRegistration', 'directory_registration');
-        await automatePage(page, pathFolder, 'registrationURL', 'cid/credentials', 'directory_api_credentials');
-        await automatePage(page, pathFolder, 'expand-btn', 'cas/config/certificates/', 'certificates');
+        await automateEventClick(driver, pathFolder, 'gm-style', selectors.button_login, 'dashboard');
+        await automatePage(driver, pathFolder, 'pull-right', 'cas/connections/', 'my_application');
+        await automatePage(driver, pathFolder, 'appCatalogActionColumn', 'cas/applicationcatalog/', 'application_catalog');
+        await automatePage(driver, pathFolder, 'odd myApplication', 'groupmanagement/', 'user_group');
+        await automatePage(driver, pathFolder, 'trial-message', 'usermanagement/', 'user_directory');
+        await automatePage(driver, pathFolder, 'collapsed-content', 'usersbyserviceng/', 'users_by_service');
+        await automatePage(driver, pathFolder, 'data-item', 'cas/config/idpng/', 'identity_repository');
+        await automatePage(driver, pathFolder, 'ellipsis-loader-button', 'cas/config/clouddesktopng/', 'dock');
+        await automatePage(driver, pathFolder, 'pull-right', 'cas/config/authnpolicy/', 'authentication_policy');
+        await automatePage(driver, pathFolder, 'sub-group', 'cas/config/pingid/', 'pingID');
+        await automateEventClick(driver, pathFolder, 'ExpandableInputListInstance', selectors.settings_client_integration, 'settings_client_integration');
+        await automateEventClick(driver, pathFolder, 'images-preview', selectors.settings_branding, 'settings_branding');
+        await automateEventClick(driver, pathFolder, 'page-section-content', selectors.setting_device_pairing, 'setting_device');
+        await automateEventClick(driver, pathFolder, 'result-set', selectors.setting_policy, 'setting_policy');
+        await automatePage(driver, pathFolder, 'wrd-inln-hlp', 'directoryPasswordPolicy/', 'directory_password_policy');
+        await automatePage(driver, pathFolder, 'field-val', 'directory_registration');
+        await automatePage(driver, pathFolder, 'field-val', 'cid/credentials', 'directory_api_credentials');
+        await automatePage(driver, pathFolder, 'collapsed-content', 'cas/config/certificates/', 'certificates');
 
     } finally {
-        await driver.quit();
+        await driver.quit().then(function() {
+            if (isSaveBase)
+                saveFileToBase(pathFolder, pathSaveFolder);
+            if (isCompare)
+                compareFile(pathFolder, pathSaveFolder);
+            });
     }
 
 }
@@ -282,10 +294,11 @@ function compareFile(pathFolder, pathSaveFolder) {
 
 module.exports = {
     run: async (pathFolder, pathSaveFolder) => {
-        runAutomation(pathFolder, pathSaveFolder, true, false);
+        await runAutomation(pathFolder, pathSaveFolder, true, false);
+
     },
     reload: async (pathFolder, pathSaveFolder) => {
-        runAutomation(pathFolder, pathSaveFolder, false, true);
+        await runAutomation(pathFolder, pathSaveFolder, false, true);
     },
     compareFile
 }

@@ -39,3 +39,7 @@ base_setting_policy.png:
 base_users_by_service.png: 
 base_user_directory.png: 
 base_user_group.png: 
+________________________________
+base_user_directory.png: 724
+base_dashboard.png: 850
+base_directory_password_policy.png: 122
