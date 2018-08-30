@@ -126,9 +126,15 @@ function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
 */
 
 async function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) {
-    var driver = await new Builder().forBrowser('chrome').build();
+    var driver = await new Builder().withCapabilities({
+        'browserName': 'chrome',
+        'username': infomations.username_saucelab,
+        'accessKey': infomations.token_saucelab
+    }).usingServer(`http://${infomations.username_saucelab}:${infomations.token_saucelab}@ondemand.saucelabs.com:80/wd/hub`)
+    .build();
+
     try {
-        await driver.manage().window().maximize();
+        await driver. manage().window().maximize();
         await automatePage(driver, pathFolder, 'sign-on', 'login', 'login');
         await automateLogin(driver, selectors.email, infomations.email);
         await automateLogin(driver, selectors.password, infomations.password);
@@ -147,7 +153,6 @@ async function runAutomation(pathFolder, pathSaveFolder, isSaveBase, isCompare) 
         await automateEventClick(driver, pathFolder, 'page-section-content', selectors.setting_device_pairing, 'setting_device');
         await automateEventClick(driver, pathFolder, 'result-set', selectors.setting_policy, 'setting_policy');
         await automatePage(driver, pathFolder, 'wrd-inln-hlp', 'directoryPasswordPolicy/', 'directory_password_policy');
-        await automatePage(driver, pathFolder, 'field-val', 'directory_registration');
         await automatePage(driver, pathFolder, 'field-val', 'cid/credentials', 'directory_api_credentials');
         await automatePage(driver, pathFolder, 'collapsed-content', 'cas/config/certificates/', 'certificates');
 
